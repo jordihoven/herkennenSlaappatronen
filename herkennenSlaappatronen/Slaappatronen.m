@@ -10,14 +10,17 @@ else
    disp(['Gekozen dataset: ', fullfile(path,file)]);
 end
 
+%toevoegen van gekozen path aan *script*
+addpath (path);
+
 %de dataset naar de workspace inladen
 data = load(file);
 
 %aanmaken variabelen
-x = data(1:2500000, 2);
-y = data(1:2500000, 3);
-z = data(1:2500000, 4);
-t = data(1:250, 1); %tijd kolom inladen
+x = data(1:5000000, 2);
+y = data(1:5000000, 3);
+z = data(1:5000000, 4);
+t = data(1:5000000, 1); %tijd kolom inladen
 tijd = datetime(t, 'ConvertFrom', 'datenum'); %omzetten van tijd kolom naar datetime
 [numInst,numDims] = size(x); %tonen aantal rijen en kolommen (zie workspace)
 
@@ -65,3 +68,6 @@ title('X, Y en Z clusters')
 %plot(A)
 %hold off
 %title('Y cluster')
+
+
+%addpath 'C:\Users\Jordi\Desktop'
