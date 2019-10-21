@@ -1,35 +1,49 @@
-clc %leegmaken van command window
+%leegmaken van command window
+clc;
+clearvars -except data;
+
+%dataset selecteren
+[file,path] = uigetfile('*');
+if isequal(file,0)
+   disp('Bestand selectie afgebroken');
+else
+   disp(['Gekozen dataset: ', fullfile(path,file)]);
+end
+
+%de dataset naar de workspace inladen
+data = load(file);
 
 %aanmaken variabelen
-x = moxData(1:2500000, 2);
-y = moxData(1:2500000, 3);
-z = moxData(1:2500000, 4);
+x = data(1:2500000, 2);
+y = data(1:2500000, 3);
+z = data(1:2500000, 4);
+t = data(1:250, 1); %tijd kolom inladen
+tijd = datetime(t, 'ConvertFrom', 'datenum'); %omzetten van tijd kolom naar datetime
 [numInst,numDims] = size(x); %tonen aantal rijen en kolommen (zie workspace)
 
 %plotten van x, y en z versnellingen
-figure, hold on
-plot(x)
+figure
+plot(tijd, x)
 hold on
-plot(y)
+plot(tijd, y)
 hold on
-plot(z)
+plot(tijd, z)
 hold off
 
 %k-means
-k = 3; %aantal clusters
+k = 2; %aantal clusters
 [clusterX, A] = kmeans(x, k);
 [clusterY, B] = kmeans(y, k);
 [clusterZ, C] = kmeans(z, k);
 
 %plot clusters
 figure
-plot(clusterX)
+plot(tijd, clusterX)
 hold on
-plot(clusterY)
+plot(tijd, clusterY)
 hold on
-plot(clusterZ)
+plot(tijd, clusterZ)
 %legend('Cluster 1','Cluster 2','Cluster 3','Cluster Centroid')
-
 hold off
 title('X, Y en Z clusters')
 
