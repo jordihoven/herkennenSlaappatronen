@@ -9,8 +9,7 @@ K = 3; %aantal clusters
 %[G,C] = kmeans(X, K, 'distance','sqEuclidean', 'start','sample');
 [G,C] = kmeans(X, K);
 
-%# Teken van de gevonden clusters
-clr = lines(K);
+% 3D grafiek 
 figure, hold on
 scatter3(X(:,1), X(:,2), X(:,3), 36, clr(G,:), 'Marker','.')
 scatter3(C(:,1), C(:,2), C(:,3), 100, clr, 'Marker','o', 'LineWidth',3)
