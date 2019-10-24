@@ -6,7 +6,7 @@ clearvars -except data;
 if exist('data', 'var') %als er al een dataset is ingeladen...
     %doe niks en ga verder met de code...
     
-else %anders
+else
     %verkenner openen om de dataset te selecteren...
     [file,path] = uigetfile('*');
     if isequal(file,0)
@@ -28,56 +28,54 @@ y = data(1:2500000, 3);
 z = data(1:2500000, 4);
 t = data(1:2500000, 1); %tijd kolom inladen
 tijd = datetime(t, 'ConvertFrom', 'datenum'); %omzetten van tijd kolom naar datetime
-[numInst,numDims] = size(x); %tonen aantal rijen en kolommen (zie workspace)
+[numInst,numDims] = size(x); %tonen aantal rijen en kolommen van x versnelling (zie workspace)
 
-%plotten van x, y en z versnellingen
+%highpass filter
+filtX = highpass(x, 12, 25); %x is de dataset, 12 de passband frequentie en 25 de samplefrequentie
+filtY = highpass(y, 12, 25);
+filtZ = highpass(z, 12, 25);
+
+%plotten van de gefilterde data
 figure
-plot(tijd, x, 'r')
+plot(tijd, filtX);
 hold on
-plot(tijd, y, 'g')
-hold on
-plot(tijd, z, 'b')
+plot(tijd, filtY);
+hold on 
+plot(tijd, filtZ);
 hold off
+title('Gefilterde dataset grafiek');
+xlabel('Tijd')
+ylabel('Intensiteit')
+legend('x', 'y', 'z')
 
 %k-means
 k = 2; %op advies van docent Big Data!
-clusterX = kmeans(x, k);
-clusterY = kmeans(y, k);
-clusterZ = kmeans(z, k);
+clusterFiltX = kmeans(filtX, k);
+clusterFiltY = kmeans(filtY, k);
+clusterFiltZ = kmeans(filtZ, k);
 
-%plot clusters in 2d
+%plot clusters
 figure
-plot(tijd, clusterX, 'r')
+plot(tijd, clusterFiltX, 'r')
 hold on
-plot(tijd, clusterY, 'm')
+plot(tijd, clusterFiltY, 'm')
 hold on
-plot(tijd, clusterZ, 'c')
-%legend('Cluster 1','Cluster 2','Cluster 3','Cluster Centroid')
+plot(tijd, clusterFiltZ, 'c')
 hold off
-title('X, Y en Z clusters')
+title('Gefilterde clusters')
+xlabel('Tijd')
+ylabel('Cluster')
+legend('x', 'y', 'z')
 
-%plot clusters in 3d
+%3d grafiek clusters
 figure
-scatter3(clusterX, clusterY, clusterZ);
-title('3d X,Y en Z clusters')
+scatter3(x, y, z)
+hold on
+scatter3(clusterFiltX, clusterFiltY, clusterFiltZ)
+hold off
+view(3), axis vis3d, box on, rotate3d on
+xlabel 'x'
+ylabel 'y'
+zlabel 'z'
+title '3d grafiek'
 
-
-
-
-
-
-
-%%%%%plot k-means
-%clr = lines(k);
-%figure, hold on
-%plot(clusterX)
-%hold off
-%title('X cluster')
-
-%plot tweede k-means
-%figure, hold on
-%plot(A)
-%hold off
-%title('Y cluster')
-
-%addpath 'C:\Users\Jordi\Desktop'
