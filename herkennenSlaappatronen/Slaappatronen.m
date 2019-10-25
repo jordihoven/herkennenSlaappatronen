@@ -1,9 +1,10 @@
-%%leegmaken van command window
+%% Inladen en plotten van de dataset
+
+%% Leegmaken van command window 
 clc;
 clearvars -except data; %leegmaken van workspace behalve de dataset
 
-
-%checken of er al een dataset is ingeladen
+%% Checken of er al een dataset is ingeladen
 if exist('data', 'var') %als er al een dataset is ingeladen...
     %doe niks en ga verder met de code...
     
@@ -23,7 +24,7 @@ else
     data = load(file);
 end
 
-
+%% Inladen van de versnellingsdata en tijd data
 %aanmaken variabelen
 x = data(1:2500000, 2); %x waarde kolom
 y = data(1:2500000, 3); %y waarde kolom
@@ -32,17 +33,28 @@ t = data(1:2500000, 1); %tijd kolom
 tijd = datetime(t, 'ConvertFrom', 'datenum'); %omzetten van tijd kolom naar datetime
 [numInst,numDims] = size(x); %tonen aantal rijen en kolommen van x versnelling (zie workspace)
 
-%Invoeren van handmatig gecategoriseerde slaap/wakker classificatie
-data(390451:1115400, 5) = 1;
-%390451 tot 1115400
+%% Invoeren handmatig gecategoriseerde slaap/wakker data
+%data(390451:1115400, 5) = 1; %390451 tot 1115400
 
-
-%highpass filter
+%% Highpass filter 
 filtX = highpass(x, 12, 25); %x is de dataset, 12 de passband frequentie en 25 de samplefrequentie
 filtY = highpass(y, 12, 25);
 filtZ = highpass(z, 12, 25);
 
-%plotten van de gefilterde data
+%% Plotten van de ongefilterde data
+figure
+plot(tijd, x);
+hold on
+plot(tijd, y);
+hold on
+plot(tijd, z);
+hold off
+title('Ongefilterde dataset grafiek');
+xlabel('Tijd')
+ylabel('Intensiteit')
+legend('x', 'y', 'z')
+
+%% Plotten van de gefilterde data
 figure
 plot(tijd, filtX);
 hold on
@@ -55,13 +67,13 @@ xlabel('Tijd')
 ylabel('Intensiteit')
 legend('x', 'y', 'z')
 
-%k-means
+%% K-means
 k = 2; %op advies van docent Big Data!
 clusterFiltX = kmeans(filtX, k);
 clusterFiltY = kmeans(filtY, k);
 clusterFiltZ = kmeans(filtZ, k);
 
-%plot clusters
+%% Plotten van clusters
 figure
 plot(tijd, clusterFiltX, 'r')
 hold on
@@ -74,14 +86,27 @@ xlabel('Tijd')
 ylabel('Cluster')
 legend('x', 'y', 'z')
 
+%% //
 %%k-nearest-neighbour
-newX = data(1:2500000, 2:4); %x, y en z waardes
-newY = data(1:2500000, 5); %de zelf ingevoerde slaap waardes
-Mdl = fitcknn(newX, newY, 'NumNeighbors',5,'Standardize',1);
+%versnellingsData = data(1:2500000, 2:4); %x, y en z waardes
+%classificatieData = data(1:2500000, 5); %de zelf ingevoerde slaap waardes
+%Mdl = fitcknn(versnellingsData, classificatieData, 'NumNeighbors',5,'Standardize',1); %het getrainde model
 
-%%testen van het getrainde model
-Xtest = [0.268292680000000,-0.265151520000000,0.956349210000000];
-label = predict(Mdl, Xtest);
+%%Voorspellen op getrainde data
+%test = [0.268292680000000,-0.265151520000000,0.956349210000000];
+%test2 = [0.955284550000000,-0.132575760000000,-0.297619050000000];
+%test3 = [0.288617890000000,-0.121212120000000,0.972222220000000];
+%label = predict(Mdl, test);
+%label2 = predict(Mdl, test2);
+%label3 = predict(Mdl, test3);
+
+
+
+
+
+
+
+
 
 
 
