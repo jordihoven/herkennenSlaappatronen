@@ -5,7 +5,7 @@ Matlab script dat versnellings data omzet in een periode van slaap door gebruik 
 
 ### eersteDatasetInlezen.m
 De trainingsdataset wordt ingeladen door middel van uigetfile. 
-Een highpass filter met een passband frequentie van Fs/2 filterd de ruis uit de data zonder belangrijke data uit te filteren. 
+Een highpass filter met een passband frequentie van Fs/2 filtert de ruis uit de data zonder essentiele data te verwijderen. 
 Vervolgens wordt de tijd tegenover de intensiteit van versnelling geplot om de verkregen dataset visueel te maken.
 
 ### trainModel.m
