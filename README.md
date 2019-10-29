@@ -36,3 +36,8 @@ tabulate(VoorspellingVanDennis)
       0    777466     31.10%
       1    1722534     68.90%
 ```
+
+## Todo
+- [x] Script verdelen in losse scripts voor overzicht
+- [x] Testen van getrainde model a.d.h.v verschillende datasets
+- [ ] Cluster 'slaap' beter classificeren (momenteel worden korte periodes met weinig periodes gezien als slaap)
