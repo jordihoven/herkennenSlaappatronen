@@ -4,7 +4,7 @@
 
 %geef hier aan welke rijen voorspelt moeten worden
 teVoorspellenRijen = data2(1:2500000, 2:4); %de gehele dataset
-voorspellingTestdataset = predict(Mdl, teVoorspellenRijen);
+voorspellingTestdataset = predict(Mdl, DennisZijnTest);
 
 %% Testen van de voorspelling
 % Om de voorspelling te testen kan het commando
