@@ -37,7 +37,27 @@ tabulate(VoorspellingVanDennis)
       1    1722534     68.90%
 ```
 
-## Todo
-- [x] Script verdelen in losse scripts voor overzicht
-- [x] Testen van getrainde model a.d.h.v verschillende datasets
-- [ ] Cluster 'slaap' beter classificeren (momenteel worden korte periodes met weinig periodes gezien als slaap)
+## Gebruiken van het script
+
+### Trainen van het model
+Run eersteDatasetInlezen.m en selecteer in de verkenner de trainingsdataset. Kies vervolgens in trainModel.m de rijen die door het model gezien moeten worden als 'slaap'. 
+
+```
+%% Invoeren van handmatig gecategoriseerde slaap/wakker classificatie
+data(695480:1271500, 5) = 1;
+```
+
+*Optioneel: veranderen van het aantal nearest neigbours door NumNeigbors aan te passen:*
+```
+Mdl = fitcknn(versnellingsData, classificatieData, 'NumNeighbors',10,'Standardize',1);
+```
+### Voorspellen van nieuwe dataset
+Run tweedeDatasetInlezen.m en selecteer in de verkenner de dataset waarvan de classificatie voor 'slaap' en 'wakker' voorspelt dient te worden. Kies de rijen die voorspelt moeten worden:
+```
+teVoorspellenRijen = data2(1:2500000, 2:4);
+voorspellingModel2 = predict(Mdl2, teVoorspellenRijen);
+```
+
+Om de resultaten van de voorspelling te tonen run ```tabulate(voorspellingTestdataset)``` in de command window. 
+
+
