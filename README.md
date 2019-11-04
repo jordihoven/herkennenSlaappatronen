@@ -31,7 +31,7 @@ voorspellingTestdataset = predict(Mdl, teVoorspellenRijen);
 Om de voorspelling te testen kan het commando tabulate(voorspellingTestdataset) uitgevoerd worden. Deze geeft een verdeling van de 1 (slaap) en 0 (wakker) waarde.
 
 ```
-tabulate(VoorspellingVanDennis)
+tabulate(VoorspellingTestdataset)
   Value    Count   Percent
       0    777466     31.10%
       1    1722534     68.90%
